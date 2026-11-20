@@ -1,322 +1,415 @@
 <!DOCTYPE html>
 <html lang="my">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Golden Brain (ရွှေဉာဏ်ရှင်) - Created by U Tin Moe Win</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Google Fonts: Noto Sans Myanmar & Plus Jakarta Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Myanmar:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        body {
-            font-family: 'Plus Jakarta Sans', 'Noto Sans Myanmar', sans-serif;
-            background-color: #060913;
-            color: #f8fafc;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 5px;
-            height: 5px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0f172a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 9999px;
-        }
-
-        /* Animations */
-        @keyframes floatUp {
-            0% { transform: translateY(0) scale(0.9); opacity: 1; }
-            100% { transform: translateY(-50px) scale(1.15); opacity: 0; }
-        }
-        .animate-float-coin {
-            animation: floatUp 1.1s ease-out forwards;
-        }
-
-        @keyframes goldShimmer {
-            0%, 100% { box-shadow: 0 0 18px rgba(245, 158, 11, 0.25); }
-            50% { box-shadow: 0 0 30px rgba(251, 191, 36, 0.5); }
-        }
-        .gold-glow {
-            animation: goldShimmer 2.8s infinite;
-        }
-
-        @keyframes popIn {
-            0% { transform: scale(0.96); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        .animate-pop {
-            animation: popIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .confetti-piece {
-            position: fixed;
-            width: 8px;
-            height: 8px;
-            border-radius: 2px;
-            pointer-events: none;
-            z-index: 100;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Golden Brain ရွှေဉာဏ်ရှင်</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: #0b1220;
+      color: #f8fafc;
+      min-height: 100vh;
+      padding: 16px;
+    }
+    .container { max-width: 760px; margin: 0 auto; }
+    .header {
+      background: #131d33;
+      border: 1px solid #243454;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .brand-title { font-size: 1.35rem; font-weight: 700; color: #facc15; }
+    .brand-sub { font-size: 0.85rem; color: #cbd5e1; margin-top: 2px; }
+    .streak-box {
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      color: #fb923c;
+      font-weight: 600;
+    }
+    .wallet-card {
+      background: linear-gradient(135deg, #172554, #1e293b);
+      border: 1px solid #3b82f6;
+      border-radius: 16px;
+      padding: 16px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .coins-val { font-size: 1.6rem; font-weight: 800; color: #fde047; margin-top: 4px; }
+    .btn {
+      border: none;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.92rem;
+    }
+    .btn-gold { background: #facc15; color: #0f172a; }
+    .btn-dark { background: #1e293b; color: #f8fafc; border: 1px solid #334155; }
+    .nav-bar {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+    .cat-card {
+      background: #131d33;
+      border: 1px solid #243454;
+      border-radius: 14px;
+      padding: 16px;
+      text-align: left;
+      color: #f8fafc;
+      cursor: pointer;
+    }
+    .cat-card:hover { border-color: #facc15; }
+    .cat-title { font-size: 1.05rem; font-weight: 700; color: #fde047; margin-bottom: 6px; }
+    .cat-meta { font-size: 0.85rem; color: #94a3b8; }
+    .quiz-box, .panel {
+      background: #131d33;
+      border: 1px solid #243454;
+      border-radius: 16px;
+      padding: 18px;
+      margin-bottom: 16px;
+    }
+    .q-text { font-size: 1.1rem; font-weight: 700; margin: 10px 0 14px; line-height: 1.5; }
+    .options { display: flex; flex-direction: column; gap: 10px; }
+    .opt-btn {
+      width: 100%;
+      text-align: left;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #334155;
+      background: #0f172a;
+      color: #f8fafc;
+      font-size: 0.96rem;
+      cursor: pointer;
+    }
+    .opt-correct {
+      background: #14532d !important;
+      border-color: #22c55e !important;
+      color: #dcfce7 !important;
+    }
+    .opt-wrong {
+      background: #7f1d1d !important;
+      border-color: #ef4444 !important;
+      color: #fee2e2 !important;
+    }
+    .feedback {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #0f172a;
+      border-left: 4px solid #facc15;
+      line-height: 1.5;
+    }
+    .hidden { display: none; }
+    .mt-12 { margin-top: 12px; }
+  </style>
 </head>
-<body class="min-h-screen flex justify-center items-start sm:items-center py-0 sm:py-5 px-0 sm:px-4 bg-gradient-to-br from-slate-950 via-[#0b132b] to-slate-950">
+<body>
+  <div class="container">
+    <div class="header">
+      <div>
+        <div class="brand-title">Golden Brain ရွှေဉာဏ်ရှင်</div>
+        <div class="brand-sub">Created by U Tin Moe Win</div>
+      </div>
+      <div class="streak-box">ဆက်တိုက်အမှန် 🔥 <span id="streak-count">0</span></div>
+    </div>
 
-    <!-- Main Mobile-First App Container -->
-    <div id="app-container" class="w-full max-w-md min-h-screen sm:min-h-[840px] sm:max-h-[900px] bg-slate-900/95 sm:rounded-[2.25rem] sm:border sm:border-amber-500/25 shadow-2xl flex flex-col justify-between overflow-hidden relative">
+    <div class="wallet-card">
+      <div>
+        <div>စုဆောင်းမိသော ရွှေဒင်္ဂါး (Balance)</div>
+        <div class="coins-val"><span id="coin-balance">100</span> Coins</div>
+      </div>
+      <button class="btn btn-gold" onclick="watchAdReward()">▶ ကြော်ငြာကြည့်မည် (+100 Coins ရယူပါ)</button>
+    </div>
 
-        <!-- Floating Coin Popup Layer -->
-        <div id="coin-popup-layer" class="pointer-events-none fixed inset-0 z-50 flex justify-center items-center"></div>
+    <div class="nav-bar">
+      <button class="btn btn-gold" onclick="showView('quiz-home')">🎮 ဉာဏ်စမ်းကစားမည်</button>
+      <button class="btn btn-dark" onclick="showView('redeem-view')">🎁 ဆုလာဘ်ထုတ်ယူရန်</button>
+      <button class="btn btn-dark" onclick="showView('admin-view')">⚙ စီမံခန့်ခွဲမှု & Ad</button>
+    </div>
 
-        <!-- Custom Toast Notification (No alert() used) -->
-        <div id="toast-box" class="fixed top-4 left-1/2 -translate-x-1/2 z-50 hidden transition-all duration-300 w-[92%] max-w-sm">
-            <div class="bg-slate-800/95 border border-amber-500/50 text-white px-4 py-3 rounded-2xl shadow-2xl flex items-center gap-3 backdrop-blur-md">
-                <span id="toast-icon" class="text-xl shrink-0">✨</span>
-                <p id="toast-msg" class="text-xs sm:text-sm font-medium leading-relaxed"></p>
-            </div>
+    <div id="quiz-home">
+      <div class="section-heading">
+        <span>မေးခွန်းကဏ္ဍ ရွေးချယ်ပါ (၅ မျိုး)</span>
+        <span>တစ်ပုဒ်မှန် +20 Coins</span>
+      </div>
+      <div id="categories-container" class="grid"></div>
+
+      <div id="quiz-area" class="quiz-box hidden">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <strong id="active-cat-name"></strong>
+          <button class="btn btn-dark" onclick="closeQuiz()">✕ ပိတ်မည်</button>
         </div>
+        <div id="q-progress" class="cat-meta mt-12"></div>
+        <div id="q-text" class="q-text"></div>
+        <div id="q-options" class="options"></div>
+        <div id="q-feedback" class="feedback hidden"></div>
+        <button id="next-q-btn" class="btn btn-gold mt-12 hidden" onclick="nextQuestion()">နောက်တစ်ပုဒ် ➔</button>
+      </div>
+    </div>
 
-        <!-- ==================== TOP BRANDED HEADER ==================== -->
-        <header class="bg-gradient-to-b from-[#111a36] to-slate-900 px-4 pt-4 pb-3 border-b border-slate-800/90 shrink-0">
-            <!-- Brand Title & Creator Badge -->
-            <div class="flex items-center justify-between mb-3">
-                <div class="flex items-center gap-3">
-                    <!-- Custom Golden Brain & Crown SVG Logo -->
-                    <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-amber-400 via-yellow-500 to-amber-600 flex items-center justify-center shadow-lg shadow-amber-500/25 shrink-0 border border-yellow-200/40">
-                        <svg class="w-6 h-6 text-slate-950" fill="currentColor" viewBox="0 0 24 24">
-                            <path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .6-.4 1-1 1H6c-.6 0-1-.4-1-1v-1h14v1z"/>
-                        </svg>
-                    </div>
-                    <div>
-                        <div class="flex items-center gap-1.5">
-                            <h1 class="text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-500 tracking-tight leading-none">
-                                Golden Brain
-                            </h1>
-                            <span class="text-[11px] font-bold text-amber-300/90 bg-amber-500/10 border border-amber-500/30 px-1.5 py-0.5 rounded-md">
-                                ရွှေဉာဏ်ရှင်
-                            </span>
-                        </div>
-                        <p class="text-[11px] text-slate-300 font-semibold mt-1 flex items-center gap-1">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                            Created by <span class="text-amber-400 font-bold">U Tin Moe Win</span>
-                        </p>
-                    </div>
-                </div>
+    <div id="redeem-view" class="panel hidden">
+      <h3>ဆုလာဘ်ထုတ်ယူရန်</h3>
+      <p class="cat-meta mt-12">လက်ကျန် Coins များဖြင့် ဆုလာဘ်တောင်းခံနိုင်ပါသည်။ (Created by U Tin Moe Win)</p>
+      <button class="btn btn-gold mt-12" onclick="redeemSample()">ဆုလာဘ် တောင်းခံမည် (500 Coins)</button>
+      <div id="redeem-msg" class="feedback hidden"></div>
+    </div>
 
-                <!-- Streak Pill -->
-                <div class="bg-slate-800/90 border border-slate-700/80 px-2.5 py-1.5 rounded-xl text-right">
-                    <span class="text-[10px] text-slate-400 block leading-none">ဆက်တိုက်အမှန်</span>
-                    <span class="text-xs font-extrabold text-amber-400 mt-0.5 block">🔥 <span id="streak-count">0</span></span>
-                </div>
-            </div>
+    <div id="admin-view" class="panel hidden">
+      <h3>စီမံခန့်ခွဲမှု & Ad</h3>
+      <p class="cat-meta mt-12">စုစုပေါင်း ကဏ္ဍ ၅ မျိုး ပါဝင်ပါသည်။ Created by U Tin Moe Win</p>
+      <button class="btn btn-dark mt-12" onclick="resetProgress()">Coins & Streak Reset လုပ်မည်</button>
+    </div>
+  </div>
 
-            <!-- Live Coin Wallet & Watch Ad Action -->
-            <div class="bg-gradient-to-r from-slate-800/95 via-[#172245] to-slate-800/95 border border-amber-500/30 rounded-2xl p-3 shadow-inner">
-                <div class="flex items-center justify-between gap-2">
-                    <div>
-                        <span class="text-[11px] text-slate-300 block">စုဆောင်းမိသော ရွှေဒင်္ဂါး (Balance)</span>
-                        <div class="flex items-baseline gap-1.5 mt-0.5">
-                            <span class="text-lg">🪙</span>
-                            <span id="coin-balance" class="text-2xl font-extrabold text-amber-400 tracking-tight">100</span>
-                            <span class="text-xs font-bold text-amber-200/80">Coins</span>
-                        </div>
-                    </div>
+  <script>
+    let coins = 100;
+    let streak = 0;
+    let currentCatIndex = null;
+    let currentQIndex = 0;
 
-                    <!-- Watch Ad Button -->
-                    <button onclick="openAdModal('reward')" class="gold-glow bg-gradient-to-r from-amber-400 to-yellow-500 hover:from-amber-300 hover:to-yellow-400 active:scale-95 transition-all text-slate-950 font-extrabold text-xs px-3.5 py-2.5 rounded-xl flex flex-col items-center justify-center shadow-lg shrink-0">
-                        <span class="flex items-center gap-1">
-                            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"/></svg>
-                            ကြော်ငြာကြည့်မည်
-                        </span>
-                        <span class="text-[10px] font-extrabold text-slate-900 mt-0.5">+100 Coins ရယူပါ</span>
-                    </button>
-                </div>
-            </div>
+    const quizCategories = [
+      {
+        id: "gk",
+        name: "အထွေထွေဗဟုသုတ",
+        questions: [
+          {
+            q: "ကမ္ဘာပေါ်တွင် ဧရိယာအကြီးဆုံး သမုဒ္ဒရာမှာ မည်သည်နည်း။",
+            options: ["အတ္တလန္တိတ်သမုဒ္ဒရာ", "ပစိဖိတ်သမုဒ္ဒရာ", "အိန္ဒိယသမုဒ္ဒရာ", "အာတိတ်သမုဒ္ဒရာ"],
+            answer: 1,
+            explanation: "ပစိဖိတ်သမုဒ္ဒရာသည် ကမ္ဘာပေါ်တွင် အကျယ်ဝန်းဆုံးနှင့် အနက်ရှိုင်းဆုံး သမုဒ္ဒရာ ဖြစ်ပါသည်။"
+          },
+          {
+            q: "ရေ၏ ဓာတုဖော်မြူလာမှာ မည်သည်နည်း။",
+            options: ["CO2", "NaCl", "H2O", "O2"],
+            answer: "H2O",
+            explanation: "ရေမော်လီကျူးတစ်ခုတွင် ဟိုက်ဒရိုဂျင် (H) ၂ လုံးနှင့် အောက်ဆီဂျင် (O) ၁ လုံး ပါဝင်သောကြောင့် H2O ဖြစ်ပါသည်။"
+          }
+        ]
+      },
+      {
+        id: "science",
+        name: "သိပ္ပံနှင့် နည်းပညာ",
+        questions: [
+          {
+            q: "နေစင်္ကြာဝဠာတွင် နေနှင့် အနီးဆုံး ဂြိုဟ်မှာ မည်သည်နည်း။",
+            options: ["ဗုဒ္ဓဟူးဂြိုဟ် (Mercury)", "သောကြာဂြိုဟ် (Venus)", "အင်္ဂါဂြိုဟ် (Mars)", "ကြာသပတေးဂြိုဟ် (Jupiter)"],
+            answer: 0,
+            explanation: "နေနှင့် အနီးဆုံးဂြိုဟ်မှာ ဗုဒ္ဓဟူးဂြိုဟ် (Mercury) ဖြစ်ပါသည်။"
+          }
+        ]
+      },
+      {
+        id: "myanmar",
+        name: "မြန်မာ့သမိုင်းနှင့် ယဉ်ကျေးမှု",
+        questions: [
+          {
+            q: "ပုဂံခေတ်ကို ထူထောင်ခဲ့သော မင်းမှာ မည်သူနည်း။",
+            options: ["ကျန်စစ်သားမင်း", "အနော်ရထာမင်း", "အလောင်းစည်သူမင်း", "နရပတိစည်သူမင်း"],
+            answer: "အနော်ရထာမင်း",
+            explanation: "ပထမမြန်မာနိုင်ငံတော်နှင့် ပုဂံခေတ်ကို စတင်ထူထောင်ခဲ့သူမှာ အနော်ရထာမင်း ဖြစ်ပါသည်။"
+          }
+        ]
+      },
+      {
+        id: "math",
+        name: "သင်္ချာနှင့် ယုတ္တိဗေဒ",
+        questions: [
+          {
+            q: "15 × 4 ၏ ရလဒ်မှာ မည်မျှနည်း။",
+            options: ["45", "50", "60", "75"],
+            answer: 2,
+            explanation: "15 ကို 4 နှင့် မြှောက်လျှင် 60 ရရှိပါသည်။"
+          }
+        ]
+      },
+      {
+        id: "logic",
+        name: "ဉာဏ်စမ်းပဟေဠိ",
+        questions: [
+          {
+            q: "မျက်နှာရှိသော်လည်း မျက်လုံးမပါ၊ လက်တံရှိသော်လည်း လက်ချောင်းမပါသော အရာမှာ မည်သည်နည်း။",
+            options: ["ရုပ်ထု", "နာရီ", "မှန်", "စာအုပ်"],
+            answer: "နာရီ",
+            explanation: "နာရီတွင် နာရီမျက်နှာပြင်နှင့် နာရီလက်တံများ ရှိသော်လည်း မျက်လုံးနှင့် လက်ချောင်း မရှိပါ။"
+          }
+        ]
+      }
+    ];
 
-            <!-- 3 Main Navigation Tabs -->
-            <div class="grid grid-cols-3 gap-1.5 mt-3 bg-slate-950/80 p-1 rounded-xl border border-slate-800">
-                <button id="tab-quiz-btn" onclick="switchTab('quiz')" class="py-2 px-2 rounded-lg text-[11px] sm:text-xs font-bold transition-all bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 shadow">
-                    🎮 ဉာဏ်စမ်းကစားမည်
-                </button>
-                <button id="tab-redeem-btn" onclick="switchTab('redeem')" class="py-2 px-2 rounded-lg text-[11px] sm:text-xs font-bold transition-all text-slate-400 hover:text-white">
-                    🎁 ဆုလာဘ်ထုတ်ယူရန်
-                </button>
-                <button id="tab-admin-btn" onclick="switchTab('admin')" class="py-2 px-2 rounded-lg text-[11px] sm:text-xs font-bold transition-all text-slate-400 hover:text-white">
-                    ⚙️ စီမံခန့်ခွဲမှု & Ad
-                </button>
-            </div>
-        </header>
+    function updateHeaderStats() {
+      document.getElementById("coin-balance").textContent = coins;
+      document.getElementById("streak-count").textContent = streak;
+    }
 
-        <!-- ==================== SCROLLABLE CONTENT AREA ==================== -->
-        <main class="flex-1 overflow-y-auto px-4 py-3.5 space-y-4">
+    function watchAdReward() {
+      coins += 100;
+      updateHeaderStats();
+      alert("ကြော်ငြာကြည့်ပြီး +100 Coins ရရှိပါပြီ!");
+    }
 
-            <!-- ==================== TAB 1: QUIZ GAMEPLAY ==================== -->
-            <section id="view-quiz" class="space-y-3.5 animate-pop">
-                
-                <!-- Sub-view 1A: Category Selection Grid -->
-                <div id="category-grid-view" class="space-y-3">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-sm font-bold text-white">မေးခွန်းကဏ္ဍ ရွေးချယ်ပါ (၅ မျိုး)</h2>
-                        <span class="text-[11px] text-amber-400 font-semibold">တစ်ပုဒ်မှန် +20 Coins</span>
-                    </div>
+    function showView(viewId) {
+      ["quiz-home", "redeem-view", "admin-view"].forEach((id) => {
+        document.getElementById(id).classList.toggle("hidden", id !== viewId);
+      });
+    }
 
-                    <div id="categories-container" class="grid grid-cols-1 gap-2.5">
-                        <!-- Category Cards Injected via JS -->
-                    </div>
-                </div>
+    function renderCategoryGrid() {
+      const container = document.getElementById("categories-container");
+      if (!container) return;
+      container.innerHTML = "";
 
-                <!-- Sub-view 1B: Active Quiz Question Card -->
-                <div id="active-quiz-view" class="hidden space-y-3 animate-pop">
-                    <div class="flex items-center justify-between">
-                        <button onclick="backToCategories()" class="text-xs font-semibold text-slate-300 hover:text-amber-400 flex items-center gap-1 bg-slate-800/80 px-2.5 py-1.5 rounded-lg border border-slate-700">
-                            ← ကဏ္ဍများသို့ ပြန်သွားမည်
-                        </button>
-                        <span id="active-cat-badge" class="text-xs font-bold text-amber-300 bg-amber-500/10 border border-amber-500/30 px-2.5 py-1 rounded-lg">
-                            ကဏ္ဍအမည်
-                        </span>
-                    </div>
+      quizCategories.forEach((cat, idx) => {
+        const card = document.createElement("button");
+        card.className = "cat-card";
+        card.type = "button";
+        card.onclick = () => openCategory(idx);
+        card.innerHTML = `
+          <div class="cat-title">${cat.name}</div>
+          <div class="cat-meta">မေးခွန်း ${cat.questions.length} ပုဒ်</div>
+        `;
+        container.appendChild(card);
+      });
+    }
 
-                    <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 shadow-xl">
-                        <!-- Progress & 15s Timer -->
-                        <div class="flex items-center justify-between mb-2.5">
-                            <span class="text-xs font-bold text-indigo-300 bg-indigo-950/90 border border-indigo-500/30 px-2.5 py-1 rounded-lg">
-                                မေးခွန်း <span id="q-current">1</span> / <span id="q-total">5</span>
-                            </span>
+    function openCategory(catIdx) {
+      currentCatIndex = catIdx;
+      currentQIndex = 0;
+      document.getElementById("quiz-area").classList.remove("hidden");
+      renderQuestion();
+    }
 
-                            <div class="flex items-center gap-1.5 bg-slate-900 border border-slate-700 px-2.5 py-1 rounded-lg">
-                                <span class="text-xs">⏱️</span>
-                                <span id="timer-text" class="text-xs font-extrabold text-rose-400 tabular-nums">15s</span>
-                            </div>
-                        </div>
+    function closeQuiz() {
+      document.getElementById("quiz-area").classList.add("hidden");
+    }
 
-                        <!-- Timer Bar -->
-                        <div class="w-full h-1.5 bg-slate-950 rounded-full overflow-hidden mb-4">
-                            <div id="timer-bar" class="h-full bg-gradient-to-r from-emerald-400 via-amber-400 to-rose-500 transition-all duration-1000 ease-linear" style="width: 100%;"></div>
-                        </div>
+    function getCorrectOptionIndex(question) {
+      if (typeof question.answer === "number") {
+        return question.answer;
+      }
+      return question.options.findIndex((opt) => opt === question.answer);
+    }
 
-                        <!-- Question Prompt -->
-                        <h3 id="question-text" class="text-sm sm:text-base font-bold text-white leading-relaxed mb-4">
-                            မေးခွန်း...
-                        </h3>
+    function renderQuestion() {
+      const cat = quizCategories[currentCatIndex];
+      const qObj = cat.questions[currentQIndex];
 
-                        <!-- 4 Options -->
-                        <div id="options-container" class="space-y-2.5">
-                            <!-- Options Injected via JS -->
-                        </div>
+      document.getElementById("active-cat-name").textContent = cat.name;
+      document.getElementById("q-progress").textContent = `မေးခွန်း ${currentQIndex + 1} / ${cat.questions.length}`;
+      document.getElementById("q-text").textContent = qObj.q;
 
-                        <!-- Feedback & Explanation Box -->
-                        <div id="feedback-box" class="hidden mt-4 p-3.5 rounded-xl border text-xs leading-relaxed animate-pop">
-                            <div id="feedback-title" class="font-bold mb-1"></div>
-                            <p id="feedback-explanation" class="text-slate-200"></p>
-                            <button id="next-btn" onclick="nextQuestion()" class="mt-3 w-full py-2.5 bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 font-extrabold rounded-xl text-xs transition-all shadow-lg">
-                                နောက်မေးခွန်းသို့ ဆက်သွားမည် →
-                            </button>
-                        </div>
-                    </div>
-                </div>
+      const feedbackEl = document.getElementById("q-feedback");
+      feedbackEl.classList.add("hidden");
+      feedbackEl.innerHTML = "";
+      document.getElementById("next-q-btn").classList.add("hidden");
 
-                <!-- Sub-view 1C: Round Summary Card -->
-                <div id="round-summary-view" class="hidden bg-gradient-to-b from-[#172245] to-slate-800/95 border border-amber-500/40 rounded-2xl p-5 text-center space-y-4 animate-pop">
-                    <div class="w-16 h-16 mx-auto rounded-2xl bg-amber-400/20 border border-amber-400/50 flex items-center justify-center text-3xl shadow-lg">
-                        🏆
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-extrabold text-white">ယခုကဏ္ဍ ပြီးဆုံးပါပြီ!</h3>
-                        <p id="summary-cat-name" class="text-xs text-amber-300 font-semibold mt-0.5"></p>
-                    </div>
+      const optionsEl = document.getElementById("q-options");
+      optionsEl.innerHTML = "";
 
-                    <div class="grid grid-cols-2 gap-3 bg-slate-900/90 p-3.5 rounded-xl border border-slate-700/80">
-                        <div>
-                            <span class="text-[11px] text-slate-400 block">အဖြေမှန် အရေအတွက်</span>
-                            <span id="summary-correct" class="text-base font-extrabold text-emerald-400 mt-0.5 block">0 / 5</span>
-                        </div>
-                        <div>
-                            <span class="text-[11px] text-slate-400 block">ရရှိခဲ့သော ဒင်္ဂါး</span>
-                            <span id="summary-coins" class="text-base font-extrabold text-amber-400 mt-0.5 block">+0 Coins</span>
-                        </div>
-                    </div>
+      qObj.options.forEach((optText, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "opt-btn";
+        btn.type = "button";
+        btn.textContent = optText;
+        btn.onclick = () => selectAnswer(idx);
+        optionsEl.appendChild(btn);
+      });
+    }
 
-                    <!-- Watch Ad for 2x Coins -->
-                    <button id="double-reward-btn" onclick="openAdModal('double')" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-300 hover:to-orange-400 text-slate-950 font-extrabold text-xs shadow-lg flex items-center justify-center gap-2 transition-all active:scale-95">
-                        <span>🎬 ကြော်ငြာကြည့်ပြီး 2x ဆုလာဘ်ယူမည်</span>
-                        <span id="double-bonus-tag" class="bg-slate-950/20 px-2 py-0.5 rounded-md">+0 Coins</span>
-                    </button>
+    function selectAnswer(selectedIdx) {
+      const cat = quizCategories[currentCatIndex];
+      const qObj = cat.questions[currentQIndex];
+      const correctIdx = getCorrectOptionIndex(qObj);
+      const allBtns = document.querySelectorAll("#q-options .opt-btn");
 
-                    <div class="grid grid-cols-2 gap-2.5">
-                        <button onclick="replayCurrentCategory()" class="py-2.5 px-3 rounded-xl bg-slate-700 hover:bg-slate-600 text-white font-bold text-xs transition-all">
-                            🔄 ထပ်မံကစားမည်
-                        </button>
-                        <button onclick="backToCategories()" class="py-2.5 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition-all">
-                            📚 ကဏ္ဍရွေးချယ်မည်
-                        </button>
-                    </div>
-                </div>
-            </section>
+      allBtns.forEach((btn, idx) => {
+        btn.disabled = true;
+        if (idx === correctIdx) {
+          btn.classList.add("opt-correct");
+        } else if (idx === selectedIdx && selectedIdx !== correctIdx) {
+          btn.classList.add("opt-wrong");
+        }
+      });
 
-            <!-- ==================== TAB 2: REDEEM REWARDS ==================== -->
-            <section id="view-redeem" class="hidden space-y-4 animate-pop">
-                
-                <!-- Exchange Rates Banner -->
-                <div class="bg-gradient-to-r from-[#172245] to-slate-800 border border-amber-500/30 rounded-2xl p-4 space-y-2.5">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-sm font-extrabold text-amber-400 flex items-center gap-1.5">
-                            <span>💎</span> ဆုလာဘ် လဲလှယ်နှုန်းထားများ
-                        </h2>
-                        <span class="text-[11px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-semibold">
-                            KPay / Wave / ဖုန်းဘေလ်
-                        </span>
-                    </div>
+      const feedbackEl = document.getElementById("q-feedback");
+      feedbackEl.classList.remove("hidden");
 
-                    <div class="grid grid-cols-3 gap-2 pt-1">
-                        <div class="bg-slate-900/90 border border-slate-700/80 rounded-xl p-2.5 text-center">
-                            <span class="text-[11px] font-bold text-amber-300 block">5,000 Coins</span>
-                            <span class="text-xs font-extrabold text-white mt-1 block">၁,၀၀၀ ကျပ်</span>
-                        </div>
-                        <div class="bg-slate-900/90 border border-amber-500/40 rounded-xl p-2.5 text-center relative">
-                            <span class="text-[11px] font-bold text-amber-300 block">10,000 Coins</span>
-                            <span class="text-xs font-extrabold text-emerald-400 mt-1 block">၂,၅၀၀ ကျပ်</span>
-                        </div>
-                        <div class="bg-slate-900/90 border border-slate-700/80 rounded-xl p-2.5 text-center">
-                            <span class="text-[11px] font-bold text-amber-300 block">20,000 Coins</span>
-                            <span class="text-xs font-extrabold text-emerald-400 mt-1 block">၅,၅၀၀ ကျပ်</span>
-                        </div>
-                    </div>
-                </div>
+      const isCorrect = selectedIdx === correctIdx;
+      if (isCorrect) {
+        coins += 20;
+        streak += 1;
+        feedbackEl.innerHTML = `<strong>မှန်ကန်ပါသည်! (+20 Coins)</strong><br>${qObj.explanation || ""}`;
+      } else {
+        streak = 0;
+        const correctText = correctIdx >= 0 ? qObj.options[correctIdx] : "";
+        feedbackEl.innerHTML = `<strong>မှားယွင်းနေပါသည်။</strong><br>အဖြေမှန်မှာ - <strong>${correctText}</strong> ဖြစ်ပါသည်။<br>${qObj.explanation || ""}`;
+      }
 
-                <!-- Payout Request Form -->
-                <div class="bg-slate-800/80 border border-slate-700/80 rounded-2xl p-4 space-y-3">
-                    <h3 class="text-sm font-bold text-white">ငွေထုတ်ယူရန် လျှောက်လွှာတင်မည်</h3>
-                    
-                    <form id="redeem-form" onsubmit="submitRedeemRequest(event)" class="space-y-3">
-                        <div>
-                            <label class="text-[11px] text-slate-300 font-semibold block mb-1">ဆုလာဘ် ပမာဏ ရွေးချယ်ပါ</label>
-                            <select id="redeem-tier" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
-                                <option value="5000|၁,၀၀၀ ကျပ်">5,000 Coins → ၁,၀၀၀ ကျပ်</option>
-                                <option value="10000|၂,၅၀၀ ကျပ်">10,000 Coins → ၂,၅၀၀ ကျပ်</option>
-                                <option value="20000|၅,၅၀၀ ကျပ်">20,000 Coins → ၅,၅၀၀ ကျပ်</option>
-                            </select>
-                        </div>
+      updateHeaderStats();
+      document.getElementById("next-q-btn").classList.remove("hidden");
+    }
 
-                        <div>
-                            <label class="text-[11px] text-slate-300 font-semibold block mb-1">ငွေလက်ခံမည့် အမျိုးအစား</label>
-                            <select id="redeem-method" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-amber-400">
-                                <option value="KBZPay (KPay)">KBZPay (KPay)</option>
-                                <option value="WavePay">WavePay</option>
-                                <option value="MPT ဖုန်းဘေလ်">MPT ဖုန်းဘေလ်</option>
-                                <option value="ATOM ဖုန်းဘေလ်">ATOM ဖုန်းဘေလ်</option>
-                                <option value="Ooredoo ဖုန်းဘေလ်">Ooredoo ဖုန်းဘေလ်</option>
-                                <option value="Mytel ဖုန်းဘေလ်">Mytel ဖုန်းဘေလ်</option>
-                            </select>
-                        </div>
+    function nextQuestion() {
+      const cat = quizCategories[currentCatIndex];
+      if (currentQIndex + 1 < cat.questions.length) {
+        currentQIndex += 1;
+        renderQuestion();
+      } else {
+        alert("ဤကဏ္ဍရှိ မေးခွန်းများ ပြီးဆုံးသွားပါပြီ။");
+        closeQuiz();
+      }
+    }
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                            <div>
-                                <label class="text-[11px] text-slate-300 font-semibold block mb-1">အကောင့်ပိုင်ရှင် အမည်</label>
-                                <input type="text" id="redeem-name" required placeholder="ဥပမာ - အောင်အောင်" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-3 py-2.5 text-xs text-white placeholder-slat
+    function redeemSample() {
+      const msgEl = document.getElementById("redeem-msg");
+      msgEl.classList.remove("hidden");
+      if (coins >= 500) {
+        coins -= 500;
+        updateHeaderStats();
+        msgEl.textContent = "ဆုလာဘ် တောင်းခံမှု မှတ်တမ်းတင်ပြီးပါပြီ။";
+      } else {
+        msgEl.textContent = "Coins မလုံလောက်သေးပါ။ (500 Coins လိုအပ်ပါသည်)";
+      }
+    }
+
+    function resetProgress() {
+      coins = 100;
+      streak = 0;
+      updateHeaderStats();
+      alert("Coins နှင့် Streak ကို မူလအတိုင်း ပြန်လည်သတ်မှတ်ပြီးပါပြီ။");
+    }
+
+    updateHeaderStats();
+    renderCategoryGrid();
+  </script>
+</body>
+</html>
